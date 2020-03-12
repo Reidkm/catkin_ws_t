@@ -15,7 +15,7 @@ find_package(catkin REQUIRED COMPONENTS
 
 find_package(GLUT REQUIRED)
 find_package(OpenGL REQUIRED)
-find_package(realsense2 2.29.0)
+find_package(realsense2)
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
 
@@ -25,6 +25,12 @@ MESSAGE(STATUS "OpenCV library status:")
 MESSAGE(STATUS "version: ${OpenCV_VERSION}")
 MESSAGE(STATUS "libraries: ${OpenCV_LIBS}") 
 MESSAGE(STATUS "include path: ${OpenCV_INCLUDE_DIRS}")
+
+
+MESSAGE(STATUS "realsense library status:") 
+MESSAGE(STATUS "version: ${realsense2_VERSION}")
+MESSAGE(STATUS "libraries: ${realsense2_LIBRARY}") 
+MESSAGE(STATUS "include path: ${realsense2_INCLUDE_DIR}")
 
 
 ## Uncomment this if the package has a setup.py. This macro ensures

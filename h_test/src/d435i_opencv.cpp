@@ -23,12 +23,31 @@ int main(int argc, char** argv)
     //Add desired streams to configuration
     cfg.enable_stream(RS2_STREAM_COLOR, WIDTH, HEIGHT, RS2_FORMAT_BGR8, 30);//向配置添加所需的流
     cfg.enable_stream(RS2_STREAM_INFRARED, 1, WIDTH, HEIGHT, RS2_FORMAT_Y8, FPS);
-	cfg.enable_stream(RS2_STREAM_INFRARED, 2, WIDTH, HEIGHT, RS2_FORMAT_Y8, FPS);
+    cfg.enable_stream(RS2_STREAM_INFRARED, 2, WIDTH, HEIGHT, RS2_FORMAT_Y8, FPS);
+
+
+	//rs2::pipeline pipe; 
+	rs2::pipeline_profile selection = pipe.start(cfg);
+	rs2::device selected_device = selection.get_device();
+	auto depth_sensor = selected_device.first<rs2::depth_sensor>();
+
+	if (depth_sensor.supports(RS2_OPTION_EMITTER_ENABLED))
+	{
+    		//depth_sensor.set_option(RS2_OPTION_EMITTER_ENABLED, 1.f); // Enable emitter
+    		depth_sensor.set_option(RS2_OPTION_EMITTER_ENABLED, 0.f); // Disable emitter
+	}
+	if (depth_sensor.supports(RS2_OPTION_LASER_POWER))
+	{
+    // Query min and max values:
+    		auto range = depth_sensor.get_option_range(RS2_OPTION_LASER_POWER);
+    		//depth_sensor.set_option(RS2_OPTION_LASER_POWER, range.max); // Set max power
+    		depth_sensor.set_option(RS2_OPTION_LASER_POWER, 0.f); // Disable laser
+	}
 
     //彩色图片：分辨率640*480 8位bgr格式 每秒30帧
 
     //Instruct pipeline to start streaming with the requested configuration
-    pipe.start(cfg);//指示管道使用所请求的配置启动流
+    //pipe.start(cfg);//指示管道使用所请求的配置启动流
 
     // Camera warmup - dropping several first frames to let auto-exposure stabilize
     rs2::frameset frames;//相机预热-删除几个第一帧让自动曝光稳定。
@@ -60,8 +79,8 @@ int main(int argc, char** argv)
 
     // Display in a GUI
 
-    	namedWindow("Display Image", WINDOW_NORMAL );
-    	imshow("Display Image", color);
+    	//namedWindow("Display Image", WINDOW_NORMAL );
+    	//imshow("Display Image", color);
     	namedWindow("right_ir Image", WINDOW_NORMAL );
     	imshow("right_ir Image", pic_right);
     	namedWindow("left_ir Image", WINDOW_NORMAL );
@@ -73,12 +92,13 @@ int main(int argc, char** argv)
 			stringstream ss;
 			ss << count;
 			ss >> str;
-			imgfile="/home/reid/Desktop/tem_folder/d435i_data/left_ir/"+str+"000000000.png";
+			imgfile="/home/reid/Desktop/tem_folder/d435i_data/left/"+str+"000000000.png";
 			imwrite(imgfile,pic_left);
-			imgfile="/home/reid/Desktop/tem_folder/d435i_data/right_ir/"+str+"000000000.png";
+			imgfile="/home/reid/Desktop/tem_folder/d435i_data/right/"+str+"000000000.png";
 			imwrite(imgfile,pic_right);
 			cout << str << " saved" << endl;
-			count++;		
+			count++;
+		
 		}
     }
     destroyAllWindows();
