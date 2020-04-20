@@ -20,23 +20,27 @@ int main(int argc,char **argv)
 	}
 	Mat img;
 	string imgfile;
-	int count =1;
+	int image_index = 138503021 ;
+	//int count =1;
 	for(;;)
 	{	
 		stringstream ss;
 		string str;
-		ss << count;
+		ss << image_index;
 		ss >> str;
 		cap>>img;
 		if(img.empty()) break;
-		imshow("pinhole_cam",img);
+		namedWindow("img", WINDOW_NORMAL );
+		//namedWindow("disparity", CV_WINDOW_AUTOSIZE);
+		imshow("img",img);
 		char key = static_cast<char>(waitKey(1));
 		if(key == 27) break;
 		if(key=='w'||key=='W')
 		{
-			imgfile="/home/reid/Desktop/tem_folder/webcamera_undistort/calib_img_ds2_0971/img_q"+str+".jpg";
+			imgfile="/home/reid/Desktop/tem_folder/webcamera_undistort/cali_img_283/"+str+"0000000000.png";
 			imwrite(imgfile,img);
-			count++;		
+			image_index++;
+			cout << "image saved " << image_index <<endl;		
 		}
 	}
 	cout<<"finish writing"<<endl;
