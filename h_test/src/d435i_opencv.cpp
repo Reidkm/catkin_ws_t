@@ -9,7 +9,7 @@ using namespace std;
 using namespace cv;
 
 #define WIDTH 1280 
-#define HEIGHT 720 
+#define HEIGHT 800 
 #define FPS 30
 
 int main(int argc, char** argv)
@@ -21,7 +21,7 @@ int main(int argc, char** argv)
     rs2::config cfg;//创建一个以非默认配置的配置用来配置管道
 
     //Add desired streams to configuration
-    cfg.enable_stream(RS2_STREAM_COLOR, WIDTH, HEIGHT, RS2_FORMAT_BGR8, 30);//向配置添加所需的流
+    //cfg.enable_stream(RS2_STREAM_COLOR, WIDTH, HEIGHT, RS2_FORMAT_BGR8, 30);//向配置添加所需的流
     cfg.enable_stream(RS2_STREAM_INFRARED, 1, WIDTH, HEIGHT, RS2_FORMAT_Y8, FPS);
     cfg.enable_stream(RS2_STREAM_INFRARED, 2, WIDTH, HEIGHT, RS2_FORMAT_Y8, FPS);
 
@@ -66,12 +66,12 @@ int main(int argc, char** argv)
 
     	/* code */
     	frames = pipe.wait_for_frames();
-    	rs2::frame color_frame = frames.get_color_frame();
+    	//rs2::frame color_frame = frames.get_color_frame();
     	rs2::video_frame ir_frame_left = frames.get_infrared_frame(1);
         rs2::video_frame ir_frame_right = frames.get_infrared_frame(2);
 
     // Creating OpenCV Matrix from a color image
-    	Mat color(Size(WIDTH, HEIGHT), CV_8UC3, (void*)color_frame.get_data(), Mat::AUTO_STEP);
+    	//Mat color(Size(WIDTH, HEIGHT), CV_8UC3, (void*)color_frame.get_data(), Mat::AUTO_STEP);
     	Mat pic_right(Size(WIDTH,HEIGHT), CV_8UC1, (void*)ir_frame_right.get_data());
         Mat pic_left(Size(WIDTH,HEIGHT), CV_8UC1, (void*)ir_frame_left.get_data());
 

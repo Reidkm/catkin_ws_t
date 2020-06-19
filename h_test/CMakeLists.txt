@@ -316,5 +316,5 @@ target_link_libraries(capture_calib_img ${OpenCV_LIBS})
 #set(CMAKE_CXX_FLAGS "-Wall")
 
 
-#add_executable(d435i_image src/d435i_opencv.cpp)
-#target_link_libraries(d435i_image   ${realsense2_LIBRARY} ${OpenCV_LIBS})
+add_executable(d435i_image src/d435i_opencv.cpp)
+target_link_libraries(d435i_image   ${realsense2_LIBRARY} ${OpenCV_LIBS})
